@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'sbconstants'
+require 'ostruct'
+
+options = OpenStruct.new
+
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: OUTPUT_FILE [options]"
+  
+  opts.on('--dry-run') do |dry_run|
+    options.dry_run = dry_run
+  end
+  
+  opts.on('-p', '--prefix PREFIX') do |prefix|
+    options.prefix = prefix
+  end
+end.parse!
+
+if ARGV.first.nil?
+  options.dry_run = true
+  options.output_path = 'no file given'
+else
+  options.output_path = ARGV.first.chomp(File.extname(ARGV.first)) 
+end
+
+SBConstants::CLI.run(options)
