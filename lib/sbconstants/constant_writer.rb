@@ -15,7 +15,7 @@ module SBConstants
     end
     
     def templates_dir
-      File.dirname(__FILE__) + '/templates/'
+      @templates_dir ||= File.dirname(__FILE__) + '/templates/'
     end
     
     def header

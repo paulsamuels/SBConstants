@@ -14,7 +14,7 @@ module SBConstants
     end
     
     def eql? other
-      other.name == name
+      other.class == self.class && other.name == name
     end
     
     def hash

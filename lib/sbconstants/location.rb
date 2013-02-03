@@ -14,7 +14,7 @@ module SBConstants
     end
     
     def eql? other
-      other.key_path == key_path
+      other.class == self.class && other.key_path == key_path
     end
     
     def hash

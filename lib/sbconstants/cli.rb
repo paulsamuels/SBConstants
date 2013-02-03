@@ -34,7 +34,7 @@ module SBConstants
             next unless value.start_with?(options.prefix) if options.prefix
             constant = Constant.find_or_create('name' => value)
             location_attrs = { 
-              'key_path' => query.location,
+              'key_path' => query.key_path,
               'context'  => line.strip,
               'file'     => File.basename(storyboard),
               'line'     => index + 1

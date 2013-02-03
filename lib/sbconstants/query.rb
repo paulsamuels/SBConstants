@@ -1,6 +1,6 @@
 module SBConstants
   Query = Struct.new(:node, :attribute) do    
-    def location
+    def key_path
       "#{node}.#{attribute}"
     end
     

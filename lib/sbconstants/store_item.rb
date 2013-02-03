@@ -4,14 +4,11 @@ module SBConstants
       attr_accessor :store
     
       def find_or_create attrs
-        object = store.object_with_attrs(self, attrs)
-        return object if object
-        store.add_object(self, new_item = self.create(attrs))
-        new_item
+        store.find_or_create self, attrs
       end
             
       def all
-        store.all_objects self
+        store.all self
       end
       
       def create attrs={}
