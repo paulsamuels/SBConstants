@@ -1,0 +1,10 @@
+---
+segue: identifier
+tableViewCell: reuseIdentifier
+view: restorationIdentifier
+? - navigationController
+  - viewController
+  - tableViewController
+  - collectionViewController
+: - storyboardIdentifier
+  - restorationIdentifier

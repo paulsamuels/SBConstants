@@ -3,9 +3,9 @@
 #import "<%= File.basename(options.output_path) %>.h"
 
 <% sections.each do |section| %>
-#pragma mark - <%= section.header.map(&:path).join(', ') %>
+#pragma mark - <%= section.header.map(&:name).join(', ') %>
 <% section.constants.each do |constant| %>
-NSString * const <%= constant %> = @"<%= constant %>";
+NSString * const <%= constant.name %> = @"<%= constant.name %>";
 <% end %>
 
 <% end %>

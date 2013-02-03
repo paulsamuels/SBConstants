@@ -1,9 +1,9 @@
 // Auto generated file - any changes will be lost
 
 <% sections.each do |section| %>
-#pragma mark - <%= section.header.map(&:path).join(', ') %>
+#pragma mark - <%= section.header.map(&:name).join(', ') %>
 <% section.constants.each do |constant| %>
-extern NSString * const <%= constant %>;  
+extern NSString * const <%= constant.name %>;  
 <% end %>
 
 <% end %>

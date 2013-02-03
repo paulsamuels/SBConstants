@@ -1,25 +1,25 @@
 require 'set'
 
 module SBConstants
-  class Location
-    attr_reader :path, :constants
+  class Location < StoreItem
+    attr_reader :constants
     
-    def initialize path
-      @path = path
+    def initialize name
+      super
       @constants = Set.new
     end
     
     def << constant
       constants << constant
-      constant.locations << self if !constant.locations.include? self
+      constant.locations << self
     end
     
     def eql? other
-      other.path == path
+      other.name == name
     end
     
     def hash
-      path.hash
+      name.hash
     end
   end
 end

@@ -1,17 +1,17 @@
 require 'set'
 
 module SBConstants
-  class Constant
-    attr_reader :name, :locations
+  class Constant < StoreItem
+    attr_reader :locations
     
     def initialize name
-      @name = name
+      super
       @locations = Set.new
     end
     
     def << location
       locations << location
-      location.constants << self if !location.constants.include? self
+      location.constants << self
     end
     
     def eql? other
