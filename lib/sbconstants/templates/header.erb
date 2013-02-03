@@ -1,8 +1,17 @@
 // Auto generated file - any changes will be lost
 
 <% sections.each do |section| %>
-#pragma mark - <%= section.header.map(&:name).join(', ') %>
+#pragma mark - <%= section.header.map(&:key_path).join(', ') %>
 <% section.constants.each do |constant| %>
+<% if options.debug %>
+<% constant.locations.each do |location| %>
+  
+// key_path: <%= location.key_path %>
+//  context: <%= location.context %>
+//     file: <%= location.file %>
+//     line: <%= location.line %>
+<% end %>
+<% end %>
 extern NSString * const <%= constant.name %>;  
 <% end %>
 

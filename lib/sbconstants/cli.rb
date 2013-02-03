@@ -1,5 +1,3 @@
-require 'rexml/document'
-
 module SBConstants
   class CLI
     attr_accessor :options, :store, :sections
@@ -30,14 +28,18 @@ module SBConstants
     
     def parse_storyboards
       Dir["#{options.source_dir}/**/*.storyboard"].each do |storyboard|
-        doc = REXML::Document.new File.open(storyboard)
-        options.queries.each do |query|
-          REXML::XPath.each(doc, query.xpath) do |node|
-            value = node.attribute(query.attribute).value
+        File.readlines(storyboard).each_with_index do |line, index|
+          options.queries.each do |query|
+            next unless value = line[query.regex, 1]
             next unless value.start_with?(options.prefix) if options.prefix
-            
-            constant = Constant.find_or_create_by_name(value)
-            constant << Location.find_or_create_by_name(query.location)
+            constant = Constant.find_or_create('name' => value)
+            location_attrs = { 
+              'key_path' => query.location,
+              'context'  => line.strip,
+              'file'     => File.basename(storyboard),
+              'line'     => index + 1
+            }
+            constant << Location.find_or_create(location_attrs)
           end
         end
       end

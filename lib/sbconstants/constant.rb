@@ -2,10 +2,9 @@ require 'set'
 
 module SBConstants
   class Constant < StoreItem
-    attr_reader :locations
+    attr_accessor :name, :locations
     
-    def initialize name
-      super
+    def initialize
       @locations = Set.new
     end
     

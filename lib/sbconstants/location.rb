@@ -2,10 +2,9 @@ require 'set'
 
 module SBConstants
   class Location < StoreItem
-    attr_reader :constants
+    attr_accessor :key_path, :constants, :context, :file, :line
     
-    def initialize name
-      super
+    def initialize
       @constants = Set.new
     end
     
@@ -15,11 +14,11 @@ module SBConstants
     end
     
     def eql? other
-      other.name == name
+      other.key_path == key_path
     end
     
     def hash
-      name.hash
+      key_path.hash
     end
   end
 end

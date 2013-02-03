@@ -3,7 +3,7 @@ require 'yaml'
 
 module SBConstants
   class Options
-    attr_accessor :dry_run, :prefix, :destination, :query_config, :output_path, :source_dir
+    attr_accessor :dry_run, :prefix, :destination, :query_config, :output_path, :source_dir, :debug
     
     def self.parse argv
       options = self.new
@@ -20,6 +20,10 @@ module SBConstants
         
         opts.on('-s', '--source-dir SOURCE') do |source_dir|
           options.source_dir = source_dir
+        end
+        
+        opts.on('-d') do |debug|
+          options.debug = debug
         end
       end.parse!(argv)
       

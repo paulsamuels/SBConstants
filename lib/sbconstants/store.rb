@@ -8,8 +8,11 @@ module SBConstants
       @objects[klass] << object
     end
   
-    def object_with_name klass, name
-      @objects[klass].select { |o| o.name == name }.first
+    def object_with_attrs klass, attrs
+      @objects[klass].select { |o| 
+        results = attrs.map { |k,v| o.send(k) == v }
+        !results.include? false
+      }.first
     end
     
     def all_objects klass
