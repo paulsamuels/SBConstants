@@ -1,24 +1,11 @@
-require 'set'
-
 module SBConstants
-  class Location < StoreItem
-    attr_accessor :key_path, :constants, :context, :file, :line
-    
-    def initialize
-      @constants = Set.new
+  Location = Struct.new(:node, :attribute, :context, :file, :line) do
+    def key_path
+      "#{node}.#{attribute}"
     end
     
-    def << constant
-      constants << constant
-      constant.locations << self
-    end
-    
-    def eql? other
-      other.class == self.class && other.key_path == key_path
-    end
-    
-    def hash
-      key_path.hash
+    def debug
+      "#{file}[line:#{line}](#{key_path})"
     end
   end
 end

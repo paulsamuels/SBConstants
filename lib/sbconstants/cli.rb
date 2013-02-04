@@ -1,53 +1,39 @@
+require 'set'
+
 module SBConstants
   class CLI
-    attr_accessor :options, :store, :sections
+    attr_accessor :options, :constants, :sections
     
     def self.run argv
       new(Options.parse(argv)).run
     end
       
     def initialize options
-      self.options  = options
-      self.sections = []
-      setup_store
+      self.options   = options
+      self.constants = Hash.new { |h,k| h[k] = Set.new }
+      self.sections  = Hash.new { |h,k| h[k] = Set.new }
     end
     
     def run
       parse_storyboards
-      generate_constant_groups
       write
     end
     
     private
     
-    def setup_store
-      self.store     = Store.new 
-      Location.store = store
-      Constant.store = store
-    end
-    
-    def parse_storyboards
+    def parse_storyboards      
       Dir["#{options.source_dir}/**/*.storyboard"].each do |storyboard|
         File.readlines(storyboard).each_with_index do |line, index|
           options.queries.each do |query|
             next unless value = line[query.regex, 1]
             next unless value.start_with?(options.prefix) if options.prefix
-            constant = Constant.find_or_create('name' => value)
-            location_attrs = { 
-              'key_path' => query.key_path,
-              'context'  => line.strip,
-              'file'     => File.basename(storyboard),
-              'line'     => index + 1
-            }
-            constant << Location.find_or_create(location_attrs)
+                        
+            constants[value] << Location.new(query.node, query.attribute, line.strip, File.basename(storyboard, '.storyboard'), index + 1)
           end
         end
       end
-    end
-    
-    def generate_constant_groups
-      Constant.all.group_by { |constant| constant.locations }.each do |locations, values|
-        sections << ConstantGroup.new(locations, values)
+      constants.each do |constant, locations|
+        sections[locations] << constant
       end
     end
     
