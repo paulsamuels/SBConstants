@@ -19,15 +19,18 @@ module SBConstants
     end
     
     def header
-      template_with_file 'header'
+      template_with_file "\n", %Q{extern NSString * const <%= constant %>;\n}
     end
     
     def implementation
-      template_with_file 'implementation'
+      head = %Q{\n#import "<%= File.basename(options.output_path) %>.h"\n\n}
+      body = %Q{NSString * const <%= constant %> = @"<%= constant %>";\n}
+      template_with_file head, body
     end
     
-    def template_with_file file
-      ERB.new(File.open("#{templates_dir}#{file}.erb").read, nil, '<>').result(binding)
+    def template_with_file head, body
+      pre_processed_template = ERB.new(File.open("#{templates_dir}body.erb").read, nil, '<>').result(binding)
+      ERB.new(pre_processed_template, nil, '<>').result(binding)
     end
   end
 end

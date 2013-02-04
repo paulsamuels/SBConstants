@@ -11,12 +11,25 @@ module SBConstants
     def initialize options
       self.options   = options
       self.constants = Hash.new { |h,k| h[k] = Set.new }
-      self.sections  = Hash.new { |h,k| h[k] = Set.new }
     end
     
     def run
       parse_storyboards
       write
+    end
+    
+    def sections
+      @sections ||= begin
+        sections_map = Hash.new { |h,k| h[k] = Set.new }
+        constants.each do |constant, locations|
+          sections_map[locations] << constant
+        end
+        @sections = []
+        sections_map.each do |k,v|
+          @sections << Section.new(k.to_a, v.to_a.sort)
+        end
+        @sections = @sections.sort_by { |section| section.locations.map(&:key_path).join(',') }
+      end
     end
     
     private
@@ -26,16 +39,14 @@ module SBConstants
         File.readlines(storyboard).each_with_index do |line, index|
           options.queries.each do |query|
             next unless value = line[query.regex, 1]
+            next if value.strip.empty?
             next unless value.start_with?(options.prefix) if options.prefix
                         
             constants[value] << Location.new(query.node, query.attribute, line.strip, File.basename(storyboard, '.storyboard'), index + 1)
           end
         end
       end
-      constants.each do |constant, locations|
-        sections[locations] << constant
-      end
-    end
+    end  
     
     def write
       int_out, imp_out = $stdout, $stdout

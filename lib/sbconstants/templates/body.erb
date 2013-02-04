@@ -1,0 +1,17 @@
+// Auto generated file - any changes will be lost
+<%= head %>
+<%% sections.each do |section| %>
+#pragma mark - <%%= section.locations.map(&:key_path).join(', ') %>
+<%% section.constants.each do |constant| %>
+<%% if options.verbose %>
+//
+<%% constants[constant].each do |location| %>
+//    info: <%%= location.debug %>
+// context: <%%= location.context %>
+//
+<%% end %>
+<%% end %>
+<%= body %>
+<%% end %>
+
+<%% end %>
