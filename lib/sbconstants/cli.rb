@@ -34,7 +34,7 @@ module SBConstants
     
     private
     
-    def parse_storyboards      
+    def parse_storyboards
       Dir["#{options.source_dir}/**/*.storyboard"].each do |storyboard|
         File.readlines(storyboard).each_with_index do |line, index|
           options.queries.each do |query|
