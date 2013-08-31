@@ -1,6 +1,7 @@
 ---
 segue: identifier
 tableViewCell: reuseIdentifier
+collectionViewCell: reuseIdentifier
 view: restorationIdentifier
 ? - navigationController
   - viewController
