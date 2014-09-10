@@ -55,17 +55,16 @@ module SBConstants
       if options.use_swift
           swift_out = File.open("#{options.output_path}.swift", 'w') unless dry_run
           SwiftConstantWriter.new(self, swift_out).write
+          swift_out.close
       else
 
         int_out = File.open("#{options.output_path}.h", 'w') unless dry_run
         imp_out = File.open("#{options.output_path}.m", 'w') unless dry_run
-        ObjcConstantWriter.new(self, int_out, imp_out).write
-      end
 
-      unless options.dry_run
-        int_out.close
-        imp_out.close
-        swift_out.close
+        ObjcConstantWriter.new(self, int_out, imp_out).write
+
+        int_out.close unless dry_run
+        imp_out.close unless dry_run
       end
     end
   end
