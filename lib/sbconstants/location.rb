@@ -3,15 +3,15 @@ module SBConstants
     def key_path
       @key_path ||= "#{node}.#{attribute}"
     end
-    
+
     def debug
       @debug ||= "#{file}[line:#{line}](#{key_path})"
     end
-    
+
     def eql? other
       self.class == other.class && key_path == other.key_path
     end
-    
+
     def hash
       key_path.hash
     end
