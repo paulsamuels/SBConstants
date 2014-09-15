@@ -1,6 +1,6 @@
 # Sbconstants
 
-Generate a constants file by grabbing identifiers from storybaords in a project
+Generate a constants file by grabbing identifiers from storyboards in a project
 
 ## Installation
 
