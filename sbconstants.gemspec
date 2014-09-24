@@ -9,8 +9,9 @@ Gem::Specification.new do |gem|
   gem.authors       = ["Paul Samuels"]
   gem.email         = ["paulio1987@gmail.com"]
   gem.description   = %q{Generate constants from storyboards}
-  gem.summary       = %q{Generate constants from storyboards}
+  gem.summary       = %q{Generate constants from storyboards.}
   gem.homepage      = "https://github.com/paulsamuels/SBConstants"
+  gem.license       = "MIT"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }

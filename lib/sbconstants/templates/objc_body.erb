@@ -1,5 +1,6 @@
 // Auto generated file - any changes will be lost
-<%= head %>
+
+<%= @head %>
 <%% sections.each do |section| %>
 #pragma mark - <%%= section.locations.map(&:key_path).join(', ') %>
 <%% section.constants.each do |constant| %>
@@ -11,7 +12,7 @@
 //
 <%% end %>
 <%% end %>
-<%= body %>
+<%= @body %>
 <%% end %>
 
 <%% end %>
