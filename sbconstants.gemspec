@@ -6,10 +6,10 @@ require 'sbconstants/version'
 Gem::Specification.new do |gem|
   gem.name          = "sbconstants"
   gem.version       = SBConstants::VERSION
-  gem.authors       = ["Paul Samuels"]
-  gem.email         = ["paulio1987@gmail.com"]
-  gem.description   = %q{Generate constants from storyboards}
-  gem.summary       = %q{Generate constants from storyboards.}
+  gem.authors       = ["Paul Samuels", "Orta Therox"]
+  gem.email         = ["paulio1987@gmail.com", "orta.therox@gmail.com"]
+  gem.description   = %q{Generate constants from storyboards in objc and swift.}
+  gem.summary       = %q{Generate constants from storyboards in Objective-C and Swift.}
   gem.homepage      = "https://github.com/paulsamuels/SBConstants"
   gem.license       = "MIT"
 
