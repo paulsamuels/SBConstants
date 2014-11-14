@@ -27,7 +27,7 @@ $ sbconstants -h
 Usage: DESTINATION_FILE [options]
     -p, --prefix=<prefix>            Only match identifiers with <prefix>
     -s, --source-dir=<source>        Directory containing storyboards
-   -sw, --swift                      Use the swift language
+    -w, --swift                      Use the swift language
     -q, --queries=<queries>          YAML file containing queries
     -d, --dry-run                    Output to STDOUT
     -v, --verbose                    Verbose output
