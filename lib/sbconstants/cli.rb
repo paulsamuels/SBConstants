@@ -15,25 +15,55 @@ module SBConstants
 
     def run
       parse_storyboards
+      refute_key_collisions
       write
     end
-
+    
     def sections
       @sections ||= begin
-        sections_map = Hash.new { |h,k| h[k] = Set.new }
-        constants.each do |constant, locations|
-          sections_map[locations] << constant
-        end
-        @sections = []
-        sections_map.each do |k,v|
-          @sections << Section.new(k.to_a, v.to_a.sort)
-        end
-        @sections = @sections.sort_by { |section| section.locations.map(&:key_path).join(',') }
+        [].tap { |sections|
+          sections_grouped_by_keypath.each do |locations, constants|
+            sections << Section.new(locations.to_a, constants.to_a.sort)
+          end
+        }.sort_by { |section| section.locations.map(&:key_path).join(',') } 
       end
+    end
+    
+    def sections_grouped_by_keypath
+      Hash.new { |h,k| h[k] = Set.new }.tap { |sections_grouped_by_keypath|
+        constants.each do |constant, locations|
+          sections_grouped_by_keypath[locations] << constant
+        end
+      }
+    end
+    
+    def sanitise_key key
+      key.gsub(" ", "").gsub("-", "")
     end
 
     private
+    
+    def refute_key_collisions
+      keys_requiring_sanitisation, keys = constants.keys.partition { |constant| constant.include?(' ') }
+      
+      keys_requiring_sanitisation.each do |key|
+        next unless keys.include?(sanitise_key(key))
+        
+        $stderr.puts <<-EOD
+Error: Key collision
 
+The constant "#{key}" will have whitespace and hyphens stripped resulting in a constant named "#{sanitise_key(key)}". 
+This creates a problem as the constant "#{sanitise_key(key)}" will want to map to the storyboard constants "#{key}" and "#{sanitise_key(key)}".
+
+To resolve the issue remove the ambiguity in naming - search your storyboards for the key "#{key}"
+        EOD
+        exit 1 
+      end
+    end
+    
+    # Parse all found storyboards and build a dictionary of constant => locations
+    #
+    # A constant key can potentially exist in many files so locations is a collection
     def parse_storyboards
       Dir["#{options.source_dir}/**/*.storyboard"].each do |storyboard|
         File.readlines(storyboard).each_with_index do |line, index|
