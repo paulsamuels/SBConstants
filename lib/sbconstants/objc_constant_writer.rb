@@ -19,12 +19,14 @@ module SBConstants
     end
 
     def header
-      template_with_file "\n", %Q{extern NSString * const <%= sanitise_key(constant) %>;\n}
+      middlespace = options.space_after_star ? " " : "" 
+      template_with_file "\n", %Q{extern NSString *#{middlespace}const <%= sanitise_key(constant) %>;\n}
     end
 
     def implementation
+      middlespace = options.space_after_star ? " " : "" 
       head = %Q{#import "<%= File.basename(options.output_path) %>.h"\n\n}
-      body = %Q{NSString * const <%= sanitise_key(constant) %> = @"<%= constant %>";\n}
+      body = %Q{NSString *#{middlespace}const <%= sanitise_key(constant) %> = @"<%= constant %>";\n}
       template_with_file head, body
     end
 

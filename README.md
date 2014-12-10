@@ -31,6 +31,7 @@ Usage: DESTINATION_FILE [options]
     -q, --queries=<queries>          YAML file containing queries
     -d, --dry-run                    Output to STDOUT
     -v, --verbose                    Verbose output
+    -r, --remove-space               Remove space before * on const declaration "NSString const*" vs "NSString const *"
 ```
 
 ## Contributing
