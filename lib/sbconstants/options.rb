@@ -3,13 +3,27 @@ require 'yaml'
 
 module SBConstants
   class Options
-    attr_accessor :dry_run, :prefix, :destination, :query_config, :output_path, :source_dir, :verbose, :query_file, :use_swift
+    attr_accessor(
+      :destination,
+      :dry_run, 
+      :output_path,
+      :prefix,
+      :query_config,
+      :query_file,
+      :source_dir,
+      :use_swift,
+      :verbose,
+    )
 
     def self.parse argv
       options = self.new
       OptionParser.new do |opts|
         opts.banner = "Usage: DESTINATION_FILE [options]"
 
+        opts.on('-d', '--dry-run', 'Output to STDOUT') do |dry_run|
+          options.dry_run = dry_run
+        end
+        
         opts.on('-p', '--prefix=<prefix>', 'Only match identifiers with <prefix>') do |prefix|
           options.prefix = prefix
         end
@@ -18,20 +32,16 @@ module SBConstants
           options.source_dir = source_dir
         end
 
-        opts.on('-w', '--swift', 'Output to a Swift File') do |use_swift|
-          options.use_swift = use_swift
-        end
-
         opts.on('-q', '--queries=<queries>', 'YAML file containing queries') do |queries|
           options.query_file = queries
         end
 
-        opts.on('-d', '--dry-run', 'Output to STDOUT') do |dry_run|
-          options.dry_run = dry_run
-        end
-
         opts.on('-v', '--verbose', 'Verbose output') do |verbose|
           options.verbose = verbose
+        end
+        
+        opts.on('-w', '--swift', 'Output to a Swift File') do |use_swift|
+          options.use_swift = use_swift
         end
       end.parse!(argv)
 
