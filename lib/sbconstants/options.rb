@@ -11,6 +11,7 @@ module SBConstants
       :query_config,
       :query_file,
       :source_dir,
+      :templates_dir,
       :use_swift,
       :verbose,
     )
@@ -30,6 +31,10 @@ module SBConstants
 
         opts.on('-s', '--source-dir=<source>', 'Directory containing storyboards') do |source_dir|
           options.source_dir = source_dir
+        end
+        
+        opts.on('-t', '--templates-dir=<templates>', 'Directory containing the templates to use for code formatting') do |templates_dir|
+          options.templates_dir = templates_dir
         end
 
         opts.on('-q', '--queries=<queries>', 'YAML file containing queries') do |queries|

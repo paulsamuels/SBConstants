@@ -91,7 +91,7 @@ To resolve the issue remove the ambiguity in naming - search your storyboards fo
         int_out = File.open("#{options.output_path}.h", 'w') unless dry_run
         imp_out = File.open("#{options.output_path}.m", 'w') unless dry_run
 
-        ObjcConstantWriter.new(self, int_out, imp_out).write
+        ObjcConstantWriter.new(self, int_out, imp_out, options.templates_dir).write
 
         int_out.close unless dry_run
         imp_out.close unless dry_run
