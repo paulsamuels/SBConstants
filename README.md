@@ -25,13 +25,27 @@ For manual use (using swift):
 ```sh
 $ sbconstants -h
 Usage: DESTINATION_FILE [options]
+    -d, --dry-run                    Output to STDOUT
     -p, --prefix=<prefix>            Only match identifiers with <prefix>
     -s, --source-dir=<source>        Directory containing storyboards
-    -w, --swift                      Use the swift language
+    -t, --templates-dir=<templates>  Directory containing the templates to use for code formatting
     -q, --queries=<queries>          YAML file containing queries
-    -d, --dry-run                    Output to STDOUT
     -v, --verbose                    Verbose output
+    -w, --swift                      Output to a Swift File
 ```
+
+## Custom formatting
+
+If you are running tools that verify your team is sticking to coding conventions you might find that the default output might not fit your requirements. Not to fear you can provide your own templates to decide the formatting you require by passing the `--templates-dir` option with the path to the directory containing the templates to use.
+
+Inside your custom templates you can interpolate the `constant_name` and `constant_value` like this
+
+```
+NSString * const <%= constant_name %> = @"<%= constant_value %>";
+
+```
+
+You can override how the Objective-C constants are formatted by creating `objc_header.erb` and `objc_implementation.erb` files and adding the `--templates-dir` flag pointing to their containing directory.
 
 ## Contributing
 

@@ -3,7 +3,7 @@
 <%= @head %>
 <%% sections.each do |section| %>
 #pragma mark - <%%= section.locations.map(&:key_path).join(', ') %>
-<%% section.constants.each do |constant| %>
+<%% present_constants(section).each do |constant_name, constant_value| %>
 <%% if options.verbose %>
 //
 <%% constants[constant].each do |location| %>
