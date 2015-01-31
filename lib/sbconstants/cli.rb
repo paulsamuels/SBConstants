@@ -66,10 +66,13 @@ To resolve the issue remove the ambiguity in naming - search your storyboards fo
     #
     # A constant key can potentially exist in many files so locations is a collection
     def parse_storyboards
-      Dir["#{options.source_dir}/**/*.storyboard"].each do |storyboard|
+      Dir["#{options.source_dir}/**/*.storyboard"].each_with_index do |storyboard, storyboard_index|
 
         filename = File.basename(storyboard, '.storyboard')
-        storyboards << filename 
+        storyboards << filename
+
+        constants[filename] << Location.new('storyboards', nil, storyboard, filename, storyboard_index + 1)
+
 
         File.readlines(storyboard).each_with_index do |line, index|
           options.queries.each do |query|
