@@ -1,11 +1,7 @@
 module SBConstants
   Location = Struct.new(:node, :attribute, :context, :file, :line) do
     def key_path
-      if attribute
-        @key_path ||= "#{node}.#{attribute}"
-      else
-        @key_path ||= "#{node}"
-      end
+      @key_path ||= [node, attribute].compact.join('.')
     end
 
     def debug
