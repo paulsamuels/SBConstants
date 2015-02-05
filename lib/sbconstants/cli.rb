@@ -71,7 +71,7 @@ To resolve the issue remove the ambiguity in naming - search your storyboards fo
         filename = File.basename(storyboard, '.storyboard')
         storyboards << filename
 
-        constants[filename] << Location.new('storyboards', nil, storyboard, filename, storyboard_index + 1)
+        constants[filename] << Location.new('storyboardNames', nil, storyboard, filename, storyboard_index + 1)
 
 
         File.readlines(storyboard).each_with_index do |line, index|
