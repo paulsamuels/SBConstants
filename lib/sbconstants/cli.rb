@@ -2,15 +2,16 @@ require 'set'
 
 module SBConstants
   class CLI
-    attr_accessor :options, :constants, :sections
+    attr_accessor :options, :constants, :sections, :storyboards
 
     def self.run argv
       new(Options.parse(argv)).run
     end
 
     def initialize options
-      self.options   = options
-      self.constants = Hash.new { |h,k| h[k] = Set.new }
+      self.options     = options
+      self.constants   = Hash.new { |h,k| h[k] = Set.new }
+      self.storyboards = Array.new
     end
 
     def run
@@ -65,14 +66,21 @@ To resolve the issue remove the ambiguity in naming - search your storyboards fo
     #
     # A constant key can potentially exist in many files so locations is a collection
     def parse_storyboards
-      Dir["#{options.source_dir}/**/*.storyboard"].each do |storyboard|
+      Dir["#{options.source_dir}/**/*.storyboard"].each_with_index do |storyboard, storyboard_index|
+
+        filename = File.basename(storyboard, '.storyboard')
+        storyboards << filename
+
+        constants[filename] << Location.new('storyboardNames', nil, storyboard, filename, storyboard_index + 1)
+
+
         File.readlines(storyboard).each_with_index do |line, index|
           options.queries.each do |query|
             next unless value = line[query.regex, 1]
             next if value.strip.empty?
             next unless value.start_with?(options.prefix) if options.prefix
 
-            constants[value] << Location.new(query.node, query.attribute, line.strip, File.basename(storyboard, '.storyboard'), index + 1)
+            constants[value] << Location.new(query.node, query.attribute, line.strip, filename, index + 1)
           end
         end
       end

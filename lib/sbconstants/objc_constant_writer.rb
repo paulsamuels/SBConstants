@@ -33,7 +33,7 @@ module SBConstants
     def template_with_file head, body
       @head = head
       @body = body
-      pre_processed_template = ERB.new(File.open("#{default_templates_dir}/objc_body.erb").read, nil, '<>').result(binding)
+      pre_processed_template = ERB.new(File.open(template_file_path("objc_body.erb")).read, nil, '<>').result(binding)
       ERB.new(pre_processed_template, nil, '<>').result(binding)
     end
     
