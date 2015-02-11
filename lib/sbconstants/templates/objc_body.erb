@@ -6,7 +6,7 @@
 <%% present_constants(section).each do |constant_name, constant_value| %>
 <%% if options.verbose %>
 //
-<%% constants[constant].each do |location| %>
+<%% constants[constant_name].each do |location| %>
 //    info: <%%= location.debug %>
 // context: <%%= location.context %>
 //
