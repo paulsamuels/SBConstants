@@ -1,12 +1,12 @@
 ---
 segue: identifier
-tableViewCell: reuseIdentifier
-collectionViewCell: reuseIdentifier
 view: restorationIdentifier
+? - tableViewCell
+  - collectionViewCell
+: - reuseIdentifier
 ? - navigationController
   - viewController
   - tableViewController
   - collectionViewController
 : - storyboardIdentifier
   - restorationIdentifier
-  
