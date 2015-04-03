@@ -1,7 +1,7 @@
 // Auto generated file from SBConstants - any changes may be lost
 <%% sections.each do |section| %>
 
-public enum <%%= section.pretty_title %> : String {
+public struct <%%= section.pretty_title %> {
 <%% section.constants.each do |constant| %>
 <%% if options.verbose %>
 //
