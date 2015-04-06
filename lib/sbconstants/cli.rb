@@ -74,7 +74,7 @@ To resolve the issue remove the ambiguity in naming - search your storyboards fo
         constants[filename] << Location.new('storyboardNames', nil, storyboard, filename, storyboard_index + 1)
 
 
-        File.readlines(storyboard).each_with_index do |line, index|
+        File.readlines(storyboard, encoding: 'UTF-8').each_with_index do |line, index|
           options.queries.each do |query|
             next unless value = line[query.regex, 1]
             next if value.strip.empty?
