@@ -2,20 +2,20 @@ require 'set'
 
 module SBConstants
   class CLI
-    attr_accessor :options, :constants, :sections, :storyboards
+    attr_accessor :options, :constants, :sections, :xibs
 
     def self.run argv
       new(Options.parse(argv)).run
     end
 
     def initialize options
-      self.options     = options
-      self.constants   = Hash.new { |h,k| h[k] = Set.new }
-      self.storyboards = Array.new
+      self.options   = options
+      self.constants = Hash.new { |h,k| h[k] = Set.new }
+      self.xibs      = Array.new
     end
 
     def run
-      parse_storyboards
+      parse_xibs
       refute_key_collisions
       write
     end
@@ -65,16 +65,17 @@ To resolve the issue remove the ambiguity in naming - search your storyboards fo
     # Parse all found storyboards and build a dictionary of constant => locations
     #
     # A constant key can potentially exist in many files so locations is a collection
-    def parse_storyboards
-      Dir["#{options.source_dir}/**/*.storyboard"].each_with_index do |storyboard, storyboard_index|
+    def parse_xibs
+      Dir["#{options.source_dir}/**/*.{storyboard,xib}"].each_with_index do |xib, xib_index|
 
-        filename = File.basename(storyboard, '.storyboard')
-        storyboards << filename
+        filename = File.basename(xib, '.*')
+        xibs << filename
 
-        constants[filename] << Location.new('storyboardNames', nil, storyboard, filename, storyboard_index + 1)
+        group_name = "#{xib.split(".").last}Names"
 
+        constants[filename] << Location.new(group_name, nil, xib, filename, xib_index + 1)
 
-        File.readlines(storyboard, encoding: 'UTF-8').each_with_index do |line, index|
+        File.readlines(xib, encoding: 'UTF-8').each_with_index do |line, index|
           options.queries.each do |query|
             next unless value = line[query.regex, 1]
             next if value.strip.empty?
