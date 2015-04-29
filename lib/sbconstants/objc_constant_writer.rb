@@ -22,7 +22,7 @@ module SBConstants
     end
 
     def header
-      template_with_file "#import <Foundation/Foundation.h>\n\n", File.open(template_file_path("objc_header.erb")).read
+      template_with_file "@import Foundation;\n\n", File.open(template_file_path("objc_header.erb")).read
     end
 
     def implementation
