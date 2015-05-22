@@ -1,6 +1,8 @@
 ---
 segue: identifier
 view: restorationIdentifier
+controller: identifier
+tableRow: identifier
 ? - tableViewCell
   - collectionViewCell
 : - reuseIdentifier
