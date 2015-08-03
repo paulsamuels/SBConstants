@@ -1,6 +1,6 @@
 # sbconstants
 
-Generate a constants file by grabbing identifiers from storyboards in a project. See [my blog post](http://paul-samuels.com/blog/2013/01/31/storyboard-constants/) for more use cases.
+Generate a constants file by grabbing identifiers from storyboards in a project.
 
 ## Installation
 
@@ -33,6 +33,164 @@ Usage: DESTINATION_FILE [options]
     -v, --verbose                    Verbose output
     -w, --swift                      Output to a Swift File
 ```
+
+An example usage would look like:
+
+    sbconstants MyApp/Constants/PASStoryboardConstants.h
+    
+**NB** The argument is the destination file to dump the constants into - this needs to be added manually
+    
+Every time `sbconstants` is run it will parse the storyboard files and pull out any constants and then dump them into `PASStoryboardConstants.(h|m)`. This of course means that `PASStoryboardConstants.(h|m)` should not be edited by hand as it will just be clobbered any time we build.
+
+The output of running this tool will look something like this:
+
+`PASStoryboardConstants.h`
+```
+// Auto generated file - any changes will be lost
+
+#import <Foundation/Foundation.h>
+
+#pragma mark - segue.identifier
+extern NSString * const PSBMasterToDetail;
+extern NSString * const PSBMasterToSettings;
+
+#pragma mark - storyboardNames
+extern NSString * const Main;
+
+#pragma mark - tableViewCell.reuseIdentifier
+extern NSString * const PSBAwesomeCell;
+
+```
+
+`PASStoryboardConstants.m`
+```
+
+// Auto generated file - any changes will be lost
+
+#import "PASStoryboardConstants.h"
+
+#pragma mark - segue.identifier
+NSString * const PSBMasterToDetail = @"PSBMasterToDetail";
+NSString * const PSBMasterToSettings = @"PSBMasterToSettings";
+
+#pragma mark - storyboardNames
+NSString * const Main = @"Main";
+
+#pragma mark - tableViewCell.reuseIdentifier
+NSString * const PSBAwesomeCell = @"PSBAwesomeCell";
+
+```
+
+Using the `--swift` flag this would produce
+
+```
+// Auto generated file from SBConstants - any changes may be lost
+
+public enum SegueIdentifier : String {
+    case PSBMasterToDetail = "PSBMasterToDetail"
+    case PSBMasterToSettings = "PSBMasterToSettings"
+}
+
+public enum StoryboardNames : String {
+    case Main = "Main"
+}
+
+public enum TableViewCellreuseIdentifier : String {
+    case PSBAwesomeCell = "PSBAwesomeCell"
+}
+```
+
+The constants are grouped by where they were found in the storyboard xml e.g. `segue.identifier`. This can really help give you some context about where/what/when and why a constant exists.
+
+##Options
+
+Options are fun and there are a few to play with - most of these options are really only any good for debugging.
+
+####`--prefix`
+    -p, --prefix=<prefix>            Only match identifiers with <prefix>
+    
+Using the `prefix` option you can specify that you only want to grab identifiers that start with a certain prefix, which is always nice.
+
+####`--source-dir`
+    -s, --source-dir=<source>        Directory containing storyboards
+    
+If you don't want to run the tool from the root of your app for some reason you can specify the source directory to start searching for storyboard files. The search is recursive using a glob something like `<source-dir>/**/*.storyboard`
+
+####`--dry-run`
+    -d, --dry-run                    Output to STDOUT
+    
+If you just want to run the tool and not write the output to a file then this option will spit the result out to `$stdout`
+
+####`--verbose`
+    -v, --verbose                    Verbose output
+    
+Perhaps you want a little more context about where your identifiers are being grabbed from for debugging purposes. Never fear just use the `--verbose` switch and get output similar to:
+
+`sample output`
+```
+
+#pragma mark - viewController.storyboardIdentifier
+//
+//    info: MainStoryboard[line:43](viewController.storyboardIdentifier)
+// context: <viewController restorationIdentifier="asd" storyboardIdentifier="FirstViewController" id="EPD-sv-vrF" sceneMemberID="viewController">
+//
+NSString * const FirstViewController = @"FirstViewController";
+
+```
+
+####`--queries`
+    -q, --queries=<queries>          YAML file containing queries
+    
+Chances are I've missed some identifiers to search for in the storyboard. You don't want to wait for the `gem` to be updated or have to fork it and fix it. Using this option you can provide a YAML file that contains a description of what identifers to search for. The current one looks something like this (NB this is a great starting point for creating your own yaml):
+
+`queries`
+```
+
+---
+segue: identifier
+view: restorationIdentifier
+? - tableViewCell
+  - collectionViewCell
+: - reuseIdentifier
+? - navigationController
+  - viewController
+  - tableViewController
+  - collectionViewController
+: - storyboardIdentifier
+  - restorationIdentifier
+  
+```
+
+This looks a little funky but it's essentially groups of keys and values (both the key and the value can be an array). This actually gets expanded to the following table:
+
+    +--------------------------+-----------------------+
+    |         node             |      attribute        |
+    + -------------------------+-----------------------+
+    | segue                    | identifier            |
+    | view                     | restorationIdentifier |
+    | tableViewCell            | reuseIdentifier       |
+    | collectionViewCell       | reuseIdentifier       |
+    | navigationController     | storyboardIdentifier  |
+    | viewController           | storyboardIdentifier  |
+    | tableViewController      | storyboardIdentifier  |
+    | collectionViewController | storyboardIdentifier  |
+    | viewController           | restorationIdentifier |
+    | navigationController     | restorationIdentifier |
+    | tableViewController      | restorationIdentifier |
+    | collectionViewController | restorationIdentifier |
+    +--------------------------+-----------------------+
+
+####`--swift`
+
+    -w, --swift                      Output to a Swift File
+    
+Outputs Swift code rather than Objective-C
+
+####`--templates-dir`
+
+    -t, --templates-dir=<templates>  Directory containing the templates to use for code formatting
+    
+See below
 
 ## Custom formatting
 

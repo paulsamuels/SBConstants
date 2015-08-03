@@ -8,6 +8,7 @@ module SBConstants
                                .gsub("identifier", "Identifier")
                                .gsub("viewcontroller", "ViewController")
                                .gsub("storyboard", "Storyboard")
+                               .gsub("reuse", "Reuse")
 
       title.slice(0,1).capitalize + title.slice(1..-1)
     end
