@@ -3,6 +3,7 @@ segue: identifier
 view: restorationIdentifier
 ? - tableViewCell
   - collectionViewCell
+  - collectionReusableView
 : - reuseIdentifier
 ? - navigationController
   - viewController
