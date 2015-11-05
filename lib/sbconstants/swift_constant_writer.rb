@@ -10,7 +10,7 @@ module SBConstants
 
     def write
       head = %Q{\nimport Foundation"\n}
-      body = %Q{    case <%= sanitise_key(constant) %> = "<%= constant %>"\n}
+      body = %Q{    case <%= sanitise_key(constant) %>\n}
       @swift_out.puts template_with_file head, body
     end
 
