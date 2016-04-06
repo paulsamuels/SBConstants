@@ -9,5 +9,6 @@ view: restorationIdentifier
   - viewController
   - tableViewController
   - collectionViewController
+  - viewControllerPlaceholder
 : - storyboardIdentifier
   - restorationIdentifier
