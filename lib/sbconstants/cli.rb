@@ -93,7 +93,7 @@ To resolve the issue remove the ambiguity in naming - search your storyboards fo
 
       if options.use_swift
           swift_out = File.open("#{options.output_path}.swift", 'w') unless dry_run
-          SwiftConstantWriter.new(self, swift_out).write
+          SwiftConstantWriter.new(self, swift_out, options.templates_dir).write
           swift_out.close
       else
 
