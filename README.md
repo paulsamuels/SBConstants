@@ -27,6 +27,7 @@ $ sbconstants -h
 Usage: DESTINATION_FILE [options]
     -d, --dry-run                    Output to STDOUT
     -p, --prefix=<prefix>            Only match identifiers with <prefix>
+    -i, --ignore=<files_to_ignore>   List of files (separated by commas) which will be ignored
     -s, --source-dir=<source>        Directory containing storyboards
     -t, --templates-dir=<templates>  Directory containing the templates to use for code formatting
     -q, --queries=<queries>          YAML file containing queries
@@ -110,6 +111,10 @@ Options are fun and there are a few to play with - most of these options are rea
     -p, --prefix=<prefix>            Only match identifiers with <prefix>
     
 Using the `prefix` option you can specify that you only want to grab identifiers that start with a certain prefix, which is always nice.
+
+###`--ignore=<files_to_ignore>`
+    -i, --ignore=<files_to_ignore>   List of files (separated by commas) which will be ignored
+Using the `ignore` option, you can specify files which will not added to constants file. If you need to ignore several files, you need to separate it with commas (`-i MainStoryboard,HelpStoryboard,CellXIB`).
 
 ####`--source-dir`
     -s, --source-dir=<source>        Directory containing storyboards
