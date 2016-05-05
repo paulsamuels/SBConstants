@@ -13,7 +13,7 @@ module SBConstants
 
     def write
       head = %Q{\nimport Foundation"\n}
-      body = %Q{    case <%= sanitise_key(constant) %>\n}
+      body = %Q{    case <%= sanitise_key(constant_name) %> = "<%= constant_value %>"\n}
       @swift_out.puts template_with_file head, body
     end
 
@@ -26,6 +26,10 @@ module SBConstants
       @body = body
       pre_processed_template = ERB.new(File.open(template_file_path("swift_body.erb")).read, nil, '<>').result(binding)
       ERB.new(pre_processed_template, nil, '<>').result(binding)
+    end
+
+    def present_constants(section)
+      section.constants.map { |constant| [ sanitise_key(constant), constant ] }
     end
 
     def template_file_path basename
