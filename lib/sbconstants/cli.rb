@@ -39,7 +39,7 @@ module SBConstants
     end
     
     def sanitise_key key
-      key.gsub(" ", "").gsub("-", "").gsub("@", "").gsub(":", "").gsub("~", "_")
+      options.namespace + key.gsub(" ", "").gsub("-", "").gsub("@", "").gsub(":", "").gsub("~", "_")
     end
 
     private

@@ -1,19 +1,16 @@
-require 'delegate'
-require 'erb'
-
 module SBConstants
-  class SwiftConstantWriter < SimpleDelegator
+  class SwiftConstantWriter < ConstantWriter
     attr_reader :templates_dir
 
     def initialize data_source, swift_out, templates_dir
-      super data_source
+      super(data_source)
       @swift_out = swift_out
       @templates_dir = templates_dir
     end
 
     def write
       head = %Q{\nimport Foundation"\n}
-      body = %Q{    case <%= sanitise_key(constant) %>\n}
+      body = %Q{    case <%= sanitise_key(constant_name) %> = "<%= constant_value %>"\n}
       @swift_out.puts template_with_file head, body
     end
 

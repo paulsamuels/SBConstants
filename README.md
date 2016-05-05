@@ -26,6 +26,7 @@ For manual use (using swift):
 $ sbconstants -h
 Usage: DESTINATION_FILE [options]
     -d, --dry-run                    Output to STDOUT
+    -n, --namespace=<namespace>      Prefix each constant with <namespace>
     -p, --prefix=<prefix>            Only match identifiers with <prefix>
     -s, --source-dir=<source>        Directory containing storyboards
     -t, --templates-dir=<templates>  Directory containing the templates to use for code formatting
@@ -105,6 +106,11 @@ The constants are grouped by where they were found in the storyboard xml e.g. `s
 ##Options
 
 Options are fun and there are a few to play with - most of these options are really only any good for debugging.
+
+####`--namespace`
+    -n, --namespace=<namespace>      Prefix each constant with <namespace>
+
+If you need to add a prefix to each constant generated, you can use `namespace` option. This is useful if you have issues with XIBs file constant names and classnames (usually `Whatever.xib` is associated with `Whatever` classname, so compiler will return an error).
 
 ####`--prefix`
     -p, --prefix=<prefix>            Only match identifiers with <prefix>

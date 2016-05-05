@@ -2,7 +2,7 @@
 <%% sections.each do |section| %>
 
 public enum <%%= section.pretty_title %> : String {
-<%% section.constants.each do |constant| %>
+<%% present_constants(section).each do |constant_name, constant_value| %>
 <%% if options.verbose %>
 //
 <%% constants[constant].each do |location| %>

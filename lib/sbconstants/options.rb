@@ -5,7 +5,8 @@ module SBConstants
   class Options
     attr_accessor(
       :destination,
-      :dry_run, 
+      :dry_run,
+      :namespace,
       :output_path,
       :prefix,
       :query_config,
@@ -24,7 +25,11 @@ module SBConstants
         opts.on('-d', '--dry-run', 'Output to STDOUT') do |dry_run|
           options.dry_run = dry_run
         end
-        
+
+        opts.on('-n', '--namespace=<namespace>', 'Prefix each constant with <namespace>') do |namespace|
+          options.namespace = namespace
+        end
+
         opts.on('-p', '--prefix=<prefix>', 'Only match identifiers with <prefix>') do |prefix|
           options.prefix = prefix
         end
@@ -62,6 +67,7 @@ module SBConstants
     def initialize
       self.query_file = File.expand_path('../../sbconstants/identifiers.yml', __FILE__)
       self.source_dir = Dir.pwd
+      self.namespace = ''
     end
 
     def queries

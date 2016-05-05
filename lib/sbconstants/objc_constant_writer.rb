@@ -1,8 +1,5 @@
-require 'delegate'
-require 'erb'
-
 module SBConstants
-  class ObjcConstantWriter < SimpleDelegator
+  class ObjcConstantWriter < ConstantWriter
     attr_reader :templates_dir
     
     def initialize data_source, int_out, imp_out, templates_dir
@@ -36,11 +33,7 @@ module SBConstants
       pre_processed_template = ERB.new(File.open(template_file_path("objc_body.erb")).read, nil, '<>').result(binding)
       ERB.new(pre_processed_template, nil, '<>').result(binding)
     end
-    
-    def present_constants(section)
-      section.constants.map { |constant| [ sanitise_key(constant), constant ] }
-    end
-    
+
     def template_file_path basename
       if templates_dir && File.exist?("#{templates_dir}/#{basename}")
         "#{templates_dir}/#{basename}"
