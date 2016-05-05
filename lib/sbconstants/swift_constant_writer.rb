@@ -6,7 +6,7 @@ module SBConstants
     attr_reader :templates_dir
 
     def initialize data_source, swift_out, templates_dir
-      super data_source
+      super(data_source)
       @swift_out = swift_out
       @templates_dir = templates_dir
     end
