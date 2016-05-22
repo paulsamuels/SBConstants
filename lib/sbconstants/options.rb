@@ -8,6 +8,7 @@ module SBConstants
       :dry_run, 
       :output_path,
       :prefix,
+      :ignored,
       :query_config,
       :query_file,
       :source_dir,
@@ -27,6 +28,10 @@ module SBConstants
         
         opts.on('-p', '--prefix=<prefix>', 'Only match identifiers with <prefix>') do |prefix|
           options.prefix = prefix
+        end
+
+        opts.on('-i', '--ignore=<files_to_ignore>', 'List of files (separated by commas) which will be ignored') do |files|
+          options.ignored = files.split(',')
         end
 
         opts.on('-s', '--source-dir=<source>', 'Directory containing storyboards') do |source_dir|
@@ -62,6 +67,7 @@ module SBConstants
     def initialize
       self.query_file = File.expand_path('../../sbconstants/identifiers.yml', __FILE__)
       self.source_dir = Dir.pwd
+      self.ignored = []
     end
 
     def queries
