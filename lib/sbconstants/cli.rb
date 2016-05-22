@@ -69,6 +69,9 @@ To resolve the issue remove the ambiguity in naming - search your storyboards fo
       Dir["#{options.source_dir}/**/*.{storyboard,xib}"].each_with_index do |xib, xib_index|
 
         filename = File.basename(xib, '.*')
+
+        next if options.ignored.include? filename
+        
         xibs << filename
 
         group_name = "#{xib.split(".").last}Names"
