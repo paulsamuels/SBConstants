@@ -13,7 +13,7 @@ module SBConstants
 
     def write
       head = %Q{\nimport Foundation"\n}
-      body = %Q{    case <%= sanitise_key(constant) %>\n}
+      body = %Q{    <%= sanitised_case_writer(constant) %>\n}
       @swift_out.puts template_with_file head, body
     end
 
@@ -33,6 +33,16 @@ module SBConstants
         "#{templates_dir}/#{basename}"
       else
         "#{default_templates_dir}/#{basename}"
+      end
+    end
+
+    def sanitised_case_writer constant
+      sanitised_key = sanitise_key(constant)
+
+      if constant.eql? sanitised_key
+        "case #{sanitised_key}"
+      else
+        "case #{sanitised_key} = \"#{constant}\""
       end
     end
 
