@@ -3,6 +3,8 @@ segue: identifier
 view: restorationIdentifier
 controller: identifier
 tableRow: identifier
+tableColumn: identifier
+tableCellView: identifier
 ? - tableViewCell
   - collectionViewCell
   - collectionReusableView
@@ -11,7 +13,9 @@ tableRow: identifier
   - viewController
   - tableViewController
   - collectionViewController
+  - collectionViewItem
   - viewControllerPlaceholder
   - tabBarController
+  - windowController
 : - storyboardIdentifier
   - restorationIdentifier
