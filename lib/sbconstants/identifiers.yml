@@ -16,5 +16,6 @@ tableCellView: identifier
   - collectionViewItem
   - viewControllerPlaceholder
   - tabBarController
+  - windowController
 : - storyboardIdentifier
   - restorationIdentifier
