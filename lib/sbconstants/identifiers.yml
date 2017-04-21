@@ -11,6 +11,7 @@ tableRow: identifier
   - viewController
   - tableViewController
   - collectionViewController
+  - collectionViewItem
   - viewControllerPlaceholder
   - tabBarController
 : - storyboardIdentifier
