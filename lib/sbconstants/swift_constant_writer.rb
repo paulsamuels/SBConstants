@@ -12,20 +12,20 @@ module SBConstants
     end
 
     def write
-      head = %Q{\nimport Foundation"\n}
-      body = %Q{    <%= sanitised_case_writer(constant) %>\n}
-      @swift_out.puts template_with_file head, body
+      @swift_out.puts template_with_file
     end
 
     def default_templates_dir
       @default_templates_dir ||= File.dirname(__FILE__) + '/templates'
     end
 
-    def template_with_file head, body
-      @head = head
-      @body = body
-      pre_processed_template = ERB.new(File.open(template_file_path("swift_body.erb")).read, nil, '<>').result(binding)
-      ERB.new(pre_processed_template, nil, '<>').result(binding)
+    def template_with_file
+      pre_processed_template = ERB.new(File.open(template_file_path("swift_body.erb")).read, nil, '-').result(binding)
+      ERB.new(pre_processed_template, nil, '-').result(binding)
+    end
+
+    def present_constants(section)
+      section.constants.map { |constant| [ sanitise_key(constant), constant ] }
     end
 
     def template_file_path basename
@@ -33,16 +33,6 @@ module SBConstants
         "#{templates_dir}/#{basename}"
       else
         "#{default_templates_dir}/#{basename}"
-      end
-    end
-
-    def sanitised_case_writer constant
-      sanitised_key = sanitise_key(constant)
-
-      if constant.eql? sanitised_key
-        "case #{sanitised_key}"
-      else
-        "case #{sanitised_key} = \"#{constant}\""
       end
     end
 

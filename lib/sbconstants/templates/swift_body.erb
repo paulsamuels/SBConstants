@@ -1,17 +1,22 @@
 // Auto generated file from SBConstants - any changes may be lost
-<%% sections.each do |section| %>
 
-public enum <%%= section.pretty_title %> : String {
-<%% section.constants.each do |constant| %>
-<%% if options.verbose %>
-//
-<%% constants[constant].each do |location| %>
-//    info: <%%= location.debug %>
-// context: <%%= location.context %>
-//
-<%% end %>
-<%% end %>
-<%= @body %>
-<%% end %>
-}
-<%% end %>
+<%- sections.each do |section| -%>
+
+  public enum <%= section.pretty_title %>: String {
+  <%- present_constants(section).each do |constant_name, constant_value| -%>
+  <%- if options.verbose -%>
+      //
+    <%- constants[constant_name].each do |location| -%>
+      //    info: <%= location.debug %>
+      // context: <%= location.context %>
+      //
+    <%- end -%>
+  <%- end -%>
+  <%- if constant_name.eql? constant_value -%>
+      case <%= constant_name %>
+  <%- else -%>
+      case <%= constant_name %> = "<%= constant_value %>"
+  <%- end -%>
+  <%- end -%>
+  }
+  <%- end -%>
