@@ -2,21 +2,21 @@
 
 <%- sections.each do |section| -%>
 
-  public enum <%= section.pretty_title %>: String {
-  <%- present_constants(section).each do |constant_name, constant_value| -%>
-  <%- if options.verbose -%>
-      //
-    <%- constants[constant_name].each do |location| -%>
-      //    info: <%= location.debug %>
-      // context: <%= location.context %>
-      //
-    <%- end -%>
+public enum <%= section.pretty_title %>: String {
+<%- present_constants(section).each do |constant_name, constant_value| -%>
+<%- if options.verbose -%>
+    //
+  <%- constants[constant_name].each do |location| -%>
+    //    info: <%= location.debug %>
+    // context: <%= location.context %>
+    //
   <%- end -%>
-  <%- if constant_name.eql? constant_value -%>
-      case <%= constant_name %>
-  <%- else -%>
-      case <%= constant_name %> = "<%= constant_value %>"
-  <%- end -%>
-  <%- end -%>
-  }
-  <%- end -%>
+<%- end -%>
+<%- if constant_name.eql? constant_value -%>
+    case <%= constant_name %>
+<%- else -%>
+    case <%= constant_name %> = "<%= constant_value %>"
+<%- end -%>
+<%- end -%>
+}
+<%- end -%>
